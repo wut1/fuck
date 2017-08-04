@@ -8,9 +8,7 @@
     },
     "main": "index.js",
     "scripts": {
-        "webpack": "webpack",
-        "github-deploy:server": "npm run webpack -- --config webpack/webpack.github-deploy.js --progress --profile --env.githubServer",
-        "github-deploy": "npm run github-deploy:server"
+        "webpack": "webpack"
     },
     "author": "chex",
     "license": "ISC",
