@@ -58,8 +58,8 @@ app.use(session({
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
 
-app.get("/login", articleController.getNote);
-app.post("/login", articleController.getNote);
+app.get("/v1/atricles", articleController.getNote);
+app.post("/v1/atricles", articleController.getNote);
 
 app.use(errorHandler());
 
