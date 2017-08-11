@@ -57,10 +57,18 @@ app.use(session({
 }));;
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/v1/atricles", articleController.getNote);
 app.post("/v1/atricles", articleController.getNote);
 
+
+// app.get('/*', function(req, res){
+//   res.sendFile(__dirname + '/index.html');
+// });
+app.all('/*', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
 app.use(errorHandler());
 
 /**
