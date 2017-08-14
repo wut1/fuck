@@ -4,11 +4,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import {
-
+  BaBackTopComponent
 } from './components';
 
 const NGA_COMPONENTS = [
-
+  BaBackTopComponent
 ]
 
 @NgModule({

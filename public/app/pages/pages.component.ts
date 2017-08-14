@@ -5,8 +5,9 @@ import { Routes } from '@angular/router';
   selector: 'pages',
   template: `
   <div class="wrap">
-    <router-outlet ></router-outlet>
+    <router-outlet></router-outlet>
   </div>
+  <ba-back-top position="200"></ba-back-top>
   `
 })
 export class Pages {

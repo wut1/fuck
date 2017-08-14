@@ -1,1 +1,24 @@
-<div>首页</div>
+<div class="note-list">
+    <ul>
+        <li *ngFor="let obj of noteList" class="card">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body">
+                <article>
+                    <h2>{{obj.title}}</h2>
+                    <section>
+                        {{obj.content}}
+                    </section>
+                </article>
+            </div>
+            <div class="card-footer">
+                <div class="meta">
+                    <a title="评论"><i></i>{{obj.meta.comments}}</a>
+                    <a title="喜爱"><i></i>{{obj.meta.favs}}</a>
+                    <a title="查看"><i></i>{{obj.meta.look}}</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -10,6 +10,7 @@ import {Component,OnChanges,SimpleChanges,ViewEncapsulation,ViewChild,HostBindin
   providers:[HomeService]
 })
 export class HomeComponent{
+  noteList:any[] = [];
    constructor(private router: Router,private homeService:HomeService){
      
    }
@@ -17,7 +18,7 @@ export class HomeComponent{
     //console.log(this.router.queryParams);
     this.homeService.getListArticle({page:0}).subscribe((response)=>{
            if(response.resultCode==1){
-               console.log(response.data)
+               this.noteList = response.resultObj;
            }
         })
    }
