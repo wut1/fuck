@@ -1,5 +1,19 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import * as mongoose from 'mongoose';
+let Schema = mongoose.Schema;
+
+export type UserModel = mongoose.Document & {
+    id:string,
+    email:string,
+    title:string,
+    password:string,
+    passwordRestToken:string,
+    passwordRestExpires:Date,
+    github:string,
+    tokens:any[],
+    name: string,
+    avatar: string,
+    notes:any[]
+}
 var userSchema = new Schema({
     id: { type: String, unique: true },
     email:{type:String,unique:true},

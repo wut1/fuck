@@ -11,7 +11,7 @@ import { routing }       from './pages.routing';
 import { Pages } from './pages.component';
 
 @NgModule({
-  imports: [FormsModule,CommonModule,routing,HomeModule,PnfModule],
+  imports: [CommonModule,HomeModule,PnfModule,routing],
   declarations: [Pages]
 })
 export class PagesModule {

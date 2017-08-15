@@ -1,16 +1,12 @@
-<div class="note-list">
-    <ul>
+<div class="note-list container-fluid">
+    <ul class="list-group">
         <li *ngFor="let obj of noteList" class="card">
-            <div class="card-header">
-
-            </div>
+            <div class="card-header">Featured</div>
             <div class="card-body">
-                <article>
-                    <h2>{{obj.title}}</h2>
-                    <section>
-                        {{obj.content}}
-                    </section>
-                </article>
+                <h4 class="card-title">{{obj.title}}</h4>
+                <p class="card-text">
+                    {{obj.content}}
+                </p>
             </div>
             <div class="card-footer">
                 <div class="meta">

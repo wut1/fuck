@@ -1,6 +1,7 @@
 import { tranferJson } from './../util/util';
 import { Request,Response } from 'express';
 import {default as Article, ArticleModel} from '../models/Article'
+import {default as User, UserModel} from '../models/User'
 import * as htmlToText from 'html-to-text'
 export let getNote = (req:Request,res: Response) => {
     let page = +req.query.page || 0;
@@ -22,7 +23,7 @@ export let getNote = (req:Request,res: Response) => {
                 preserveNewlines:true                   
             });
             var reg = /\\n|\s/g;
-            json.content = text.replace(reg,"").substring(0,140);
+            json.content = text.replace(reg,"").substring(0,140) + '...';
            resultJson.push(json)
         })
         res.json(tranferJson({status:1},resultJson));    

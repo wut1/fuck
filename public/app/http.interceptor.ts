@@ -63,7 +63,7 @@ export class InterceptedHttp extends Http {
     }
 
     private updateUrl(req: string) {
-            return req;  
+        return environment.realHost + req;  
     }
 
     private getRequestOptionArgs(options?: RequestOptionsArgs) : RequestOptionsArgs {

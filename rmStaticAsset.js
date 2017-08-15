@@ -1,3 +1,8 @@
 var shell = require('shelljs');
 
-shell.rm('-rf', 'dist/public');
+var src = process.argv[1];
+if (src == 'dist') {
+    shell.rm('-rf', 'dist');
+} else {
+    shell.rm('-rf', 'dist/public/');
+}
