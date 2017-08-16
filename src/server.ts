@@ -18,7 +18,7 @@ const MongoStore = mongo(session);
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.config({ path: "../.env.example" });
+dotenv.config({ path: ".env.example" });
 
 /**
  * Create Express server.
@@ -28,7 +28,6 @@ const app = express();
 /**
  * Connect to MongoDB.
  */
-// mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
 
 mongoose.connection.on("error", () => {
@@ -61,7 +60,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/v1/atricles", articleController.getNote);
 app.post("/v1/atricles", articleController.getNote);
-
+app.get("/v1/getArticleDetail", articleController.getDetail);
+app.post("/v1/getArticleDetail", articleController.getDetail);
 
 // app.get('/*', function(req, res){
 //   res.sendFile(__dirname + '/index.html');

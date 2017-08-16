@@ -1,8 +1,8 @@
-import { HomeComponent } from './home.component';
+import { DetailComponent } from './detail.component';
 import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { PnfModule } from '../../theme/pnf.module';
-import {routing} from './home.routing'
+import {routing} from './detail.routing'
 
 @NgModule({
   imports: [
@@ -11,7 +11,7 @@ import {routing} from './home.routing'
     routing
   ],
   declarations: [
-   HomeComponent
+   DetailComponent
   ]
 })
-export class HomeModule {}
+export class DetailModule {}

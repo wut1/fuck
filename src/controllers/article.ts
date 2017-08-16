@@ -1,14 +1,15 @@
 import { tranferJson } from './../util/util';
 import { Request,Response } from 'express';
 import {default as Article, ArticleModel} from '../models/Article'
-import {default as User, UserModel} from '../models/User'
+import '../models/User'
 import * as htmlToText from 'html-to-text'
+
 export let getNote = (req:Request,res: Response) => {
     let page = +req.query.page || 0;
     let courent = 10;
     let num =  page * courent + 1;
-    Article.find().sort({time:'desc'}).limit(courent).skip(num).exec(function(err:any,articles:ArticleModel[]){
-        if (err) return;
+    Article.find().sort({time:'desc'}).limit(courent).skip(num).populate('_creator').exec(function(err,articles:ArticleModel[]){
+        if(err) return;
         let resultJson:any[] = [];
         articles.forEach(function(item,index){
             let json:any = {
@@ -24,8 +25,46 @@ export let getNote = (req:Request,res: Response) => {
             });
             var reg = /\\n|\s/g;
             json.content = text.replace(reg,"").substring(0,140) + '...';
-           resultJson.push(json)
-        })
-        res.json(tranferJson({status:1},resultJson));    
+            json.user = {
+                id:item._creator._id,
+                name:item._creator.name,
+                avatar:item._creator.avatar
+            }
+            // User.findOne({id:item._creator}).exec(function(res:UserModel){
+            //     json.user = {
+            //         name:res.name,
+            //         avatar:res.avatar
+            //     }
+            //     ;    
+            // });   
+            resultJson.push(json)
+        });
+        res.send(tranferJson({status:1},resultJson));
+    });
+}
+
+export let getDetail = (req:Request,res: Response) => {
+    let id = +req.query.id || req.body.id||0;
+    console.log(id)
+    Article.findOne({_id:id}).populate('_creator').exec(function(err:any,item:ArticleModel){
+        if(err) return;
+        let resultJson;
+        if(!item){
+            resultJson = {};
+        } else {
+         resultJson = {
+                title:item.title,
+                time:item.time,
+                meta:item.meta,
+                content:item.content,
+                user:{
+                    id:item._creator._id,
+                    name:item._creator.name,
+                    avatar:item._creator.avatar
+                }
+            };
+        }
+        res.send(tranferJson({status:1},resultJson));
     })
 }
+

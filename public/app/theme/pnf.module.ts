@@ -7,20 +7,30 @@ import {
   BaBackTopComponent
 } from './components';
 
-const NGA_COMPONENTS = [
+import {
+  MomentTime
+} from './pipes';
+
+const PNF_COMPONENTS = [
   BaBackTopComponent
+]
+
+const PNF_PIPES = [
+  MomentTime
 ]
 
 @NgModule({
   declarations: [
-    ...NGA_COMPONENTS
+    ...PNF_COMPONENTS,
+    ...PNF_PIPES
   ],
   imports: [
     CommonModule,
     RouterModule
   ],
   exports: [
-    ...NGA_COMPONENTS,
+    ...PNF_COMPONENTS,
+    ...PNF_PIPES
   ]
 })
 export class PnfModule {

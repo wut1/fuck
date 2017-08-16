@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { HomeService } from './home.service';
-import {Component,OnChanges,SimpleChanges,ViewEncapsulation,ViewChild,HostBinding  } from '@angular/core';
+import {Component } from '@angular/core';
 
 @Component({
   selector: 'home',
@@ -13,6 +13,9 @@ export class HomeComponent{
   noteList:any[] = [];
    constructor(private router: Router,private homeService:HomeService){
      
+   }
+   toDetail(id:string):void {
+    this.router.navigate(['/pages/detail', id]);
    }
    ngOnInit():void{
     //console.log(this.router.queryParams);

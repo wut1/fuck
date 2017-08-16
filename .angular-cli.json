@@ -26,6 +26,8 @@
     }],
     "defaults": {
         "styleExt": "less",
-        "component": {}
+        "build": {
+            "sourcemaps": false
+        }
     }
 }

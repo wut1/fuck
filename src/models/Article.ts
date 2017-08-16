@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 
 
 export type ArticleModel = mongoose.Document & {
-    id:number,
-    _creator:string,
+    _id:number,
+    _creator:any,
     title:string,
     time: Date,
     content:string,
@@ -17,7 +17,7 @@ export type ArticleModel = mongoose.Document & {
 
 
 var articleSchema = new Schema({
-    id: { type: Number, unique: true },
+    _id: { type: Number, unique: true },
     _creator: { type: String, ref: 'User' },
     title: String,
     time: Date,

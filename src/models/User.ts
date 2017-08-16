@@ -4,7 +4,6 @@ let Schema = mongoose.Schema;
 export type UserModel = mongoose.Document & {
     id:string,
     email:string,
-    title:string,
     password:string,
     passwordRestToken:string,
     passwordRestExpires:Date,
@@ -15,8 +14,8 @@ export type UserModel = mongoose.Document & {
     notes:any[]
 }
 var userSchema = new Schema({
-    id: { type: String, unique: true },
-    email:{type:String,unique:true},
+    _id: { type: String, unique: true },
+    email:{type:String},
     password:String,
     passwordRestToken:String,
     passwordRestExpires:Date,
@@ -25,7 +24,7 @@ var userSchema = new Schema({
     name: String,
     avatar: String,
     notes: [{
-        type: Schema.Types.ObjectId,
+        type: Number,
         ref: 'Article'
     }]
 })

@@ -1,8 +1,11 @@
 <div class="note-list container-fluid">
     <ul class="list-group">
         <li *ngFor="let obj of noteList" class="card">
-            <div class="card-header">Featured</div>
-            <div class="card-body">
+            <div class="card-header">
+                <img [src]="obj.user.avatar" [alt]="obj.user.name" class="rounded-circle">
+                <span>{{obj.time|momentTime}}</span>
+            </div>
+            <div class="card-body" (click)="toDetail(obj.id)">
                 <h4 class="card-title">{{obj.title}}</h4>
                 <p class="card-text">
                     {{obj.content}}
