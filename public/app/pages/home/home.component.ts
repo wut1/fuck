@@ -1,7 +1,11 @@
+import { environment } from './../../../environments/environment';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { HomeService } from './home.service';
 import {Component } from '@angular/core';
+import 'rxjs/add/operator/exhaustMap';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/empty';
 
 @Component({
   selector: 'home',
@@ -11,18 +15,32 @@ import {Component } from '@angular/core';
 })
 export class HomeComponent{
   noteList:any[] = [];
+  page:number = 0;
    constructor(private router: Router,private homeService:HomeService){
      
+   }
+   onScroll():void {
+    console.log('scrolled!!')
+    ++this.page;
+    this.getList(this.page);
    }
    toDetail(id:string):void {
     this.router.navigate(['/pages/detail', id]);
    }
    ngOnInit():void{
-    //console.log(this.router.queryParams);
-    this.homeService.getListArticle({page:0}).subscribe((response)=>{
-           if(response.resultCode==1){
-               this.noteList = response.resultObj;
-           }
-        })
+    this.getList();
    }
+   getList(page:number=0):void{
+    this.homeService.getListArticle({page:page}).subscribe((response)=>{
+      if(response.resultCode==1){
+        if(page ==0){
+          this.noteList = response.resultObj;
+        }else {
+          this.noteList = this.noteList.concat(response.resultObj);
+        }
+          
+      }
+   })
+   }
+
 }

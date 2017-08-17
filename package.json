@@ -56,6 +56,7 @@
         "moment": "^2.18.1",
         "mongoose": "^4.6.6",
         "morgan": "^1.7.0",
+        "ngx-infinite-scroll": "^0.5.1",
         "nodemailer": "^2.6.4",
         "passport": "0.3.2",
         "passport-facebook": "^2.1.1",
