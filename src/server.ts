@@ -12,6 +12,8 @@ import * as dotenv from "dotenv";
 import * as mongo from "connect-mongo";
 import * as path from "path";
 import * as mongoose from "mongoose";
+import * as passport from "passport";
+import "./config/passport";
 
 const MongoStore = mongo(session);
 
@@ -35,7 +37,7 @@ mongoose.connection.on("error", () => {
   process.exit();
 });
 
-import * as articleController from './controllers/article';
+
 
 /**
  * Express configuration.
@@ -58,10 +60,14 @@ app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
 app.use(express.static(path.join(__dirname, "public")));
 
+import * as articleController from './controllers/article';
+import * as userController from './controllers/user';
+
 app.get("/v1/atricles", articleController.getNote);
 app.post("/v1/atricles", articleController.getNote);
 app.get("/v1/getArticleDetail", articleController.getDetail);
 app.post("/v1/getArticleDetail", articleController.getDetail);
+app.post("/v1/login",passport.authenticate('local'), userController.postLogin);
 
 // app.get('/*', function(req, res){
 //   res.sendFile(__dirname + '/index.html');

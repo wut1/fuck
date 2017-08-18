@@ -1,6 +1,7 @@
 import { tranferJson } from './../util/util';
-import { Request,Response } from 'express';
+import { Request,Response,NextFunction } from 'express';
 import {default as Article, ArticleModel} from '../models/Article'
+import { WriteError } from "mongodb";
 import '../models/User'
 import * as htmlToText from 'html-to-text'
 
@@ -45,8 +46,7 @@ export let getNote = (req:Request,res: Response) => {
 
 export let getDetail = (req:Request,res: Response) => {
     let id = +req.query.id || req.body.id||0;
-    console.log(id)
-    Article.findOne({_id:id}).populate('_creator').exec(function(err:any,item:ArticleModel){
+    Article.findOne({_id:id}).populate('_creator').exec(function(err:WriteError,item:ArticleModel){
         if(err) return;
         let resultJson;
         if(!item){

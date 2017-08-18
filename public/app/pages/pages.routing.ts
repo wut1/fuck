@@ -6,6 +6,14 @@ import { ModuleWithProviders } from '@angular/core';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    loadChildren: './login/login.module#LoginModule'
+  },
+  {
+    path: 'register',
+    loadChildren: './register/register.module#RegisterModule'
+  },
+  {
     path: 'pages',
     component: Pages,
     children: [
