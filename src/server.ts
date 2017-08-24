@@ -76,6 +76,8 @@ app.post("/v1/login",userController.postLogin);
 app.post("/v1/register",userController.postRegister);
 app.get("/v1/getUser",userController.getUser);
 app.post("/v1/getUser",userController.getUser);
+app.get("/v1/logout",userController.logout);
+
 
 // app.get('/*', function(req, res){
 //   res.sendFile(__dirname + '/index.html');

@@ -1,5 +1,6 @@
 import { LoginService } from './login.service';
 import {Component} from '@angular/core';
+import { Router } from '@angular/router';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
@@ -15,7 +16,7 @@ export class Login {
   public password:AbstractControl;
   public submitted:boolean = false;
 
-  constructor(fb:FormBuilder,private loginService:LoginService) {
+  constructor(fb:FormBuilder,private loginService:LoginService,private router:Router) {
     this.form = fb.group({
       'email': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
@@ -31,7 +32,9 @@ export class Login {
       this.loginService.postLogin({
         email:values.email,
         password:values.password}).subscribe((response)=>{
-          alert(response.resultMess)
+          if(response.resultCode ==1){
+            this.router.navigate(['/page/home']);
+          }
         })
       // your code goes here
       // console.log(values);

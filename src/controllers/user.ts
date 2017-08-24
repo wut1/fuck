@@ -46,3 +46,8 @@ export let getUser = (req:Request,res:Response,next:NextFunction)=>{
         res.send(tranferJson({status:0,message:'用户未登陆'}))
     }
 }
+
+export let logout = (req:Request,res:Response,next:NextFunction)=>{
+    req.logout();
+    res.send(tranferJson({status:1,message:'退出成功'}))
+}

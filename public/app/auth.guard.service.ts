@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Routes,Router,CanLoad,ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
 @Injectable()
-export class AuthGuard implements CanLoad,CanActivate  {
+export class AuthGuard  {
     constructor(private http:Http,private router:Router,private activeRouter: ActivatedRoute){}
     canActivate():Observable<boolean>{
         return this.checkLogin(); 
@@ -13,16 +13,24 @@ export class AuthGuard implements CanLoad,CanActivate  {
         return this.checkLogin(); 
     }
     checkLogin():Observable<boolean>{
-        return this.http.post(configUri.isLogin,{se:'+3'}).map(res => {
+        return this.http.post(configUri.isLogin,{}).map(res => {
             let response = res.json();
                 if(response.resultCode ==1){           
                     return true;
-                } else if(response.resultCode ==401){
-                    console.log('未登陆==')
-                    this.router.navigate(['/pages/login']);
-                    return false;
-                    
+                } else if(response.resultCode ==0){
+                    return false;         
                 }
             })
+    }
+
+    getUser():Observable<any> {
+        return this.http.post(configUri.isLogin,{}).map(res => {        
+                return res.json();
+            });
+    }
+    logout():Observable<any> {
+        return this.http.get(configUri.logout).map(res => {        
+            return res.json();
+        });
     }
 }

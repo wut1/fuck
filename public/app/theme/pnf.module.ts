@@ -4,7 +4,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import {
-  BaBackTopComponent
+  BaBackTopComponent,
+  BaPageTop
 } from './components';
 
 import {
@@ -12,7 +13,8 @@ import {
 } from './pipes';
 
 const PNF_COMPONENTS = [
-  BaBackTopComponent
+  BaBackTopComponent,
+  BaPageTop
 ]
 
 const PNF_PIPES = [
