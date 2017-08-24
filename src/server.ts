@@ -54,8 +54,13 @@ app.use(session({
   store: new MongoStore({
     url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
     autoReconnect: true
-  })
+  }),
+  cookie:{
+    maxAge: 30*60*1000
+  }
 }));;
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
 app.use(express.static(path.join(__dirname, "public")));
@@ -67,7 +72,10 @@ app.get("/v1/atricles", articleController.getNote);
 app.post("/v1/atricles", articleController.getNote);
 app.get("/v1/getArticleDetail", articleController.getDetail);
 app.post("/v1/getArticleDetail", articleController.getDetail);
-app.post("/v1/login",passport.authenticate('local'), userController.postLogin);
+app.post("/v1/login",userController.postLogin);
+app.post("/v1/register",userController.postRegister);
+app.get("/v1/getUser",userController.getUser);
+app.post("/v1/getUser",userController.getUser);
 
 // app.get('/*', function(req, res){
 //   res.sendFile(__dirname + '/index.html');

@@ -8,9 +8,20 @@ import { default as User} from '../models/User'
 
 let LocalStrategy = passportLocal.Strategy;
 
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-      User.findOne({ name: username }, function (err:WriteError, user:UserModel) {
+passport.serializeUser<any, any>((user, done) => {
+  done(undefined, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
+
+passport.use(new LocalStrategy({ usernameField: "email" },
+    (email, password, done)=>{
+      User.findOne({ email: email.toLowerCase() }, function (err:WriteError, user:UserModel) {
         if (err) { return done(err); }
         if (!user) {
           return done(null, false);

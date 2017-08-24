@@ -1,3 +1,5 @@
+import { RegisterService } from './register.service';
+import passport = require("./../../../../src/config/passport")
 import {Component} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmailValidator, EqualPasswordsValidator} from '../../theme/validators';
@@ -5,7 +7,8 @@ import {EmailValidator, EqualPasswordsValidator} from '../../theme/validators';
 @Component({
   selector: 'register',
   templateUrl: './register.html',
-  styleUrls: ['./register.less']
+  styleUrls: ['./register.less'],
+  providers:[RegisterService]
 })
 export class Register {
 
@@ -18,7 +21,7 @@ export class Register {
 
   public submitted:boolean = false;
 
-  constructor(fb:FormBuilder) {
+  constructor(fb:FormBuilder,private registerService:RegisterService) {
 
     this.form = fb.group({
       'name': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -39,8 +42,13 @@ export class Register {
   public onSubmit(values:Object):void {
     this.submitted = true;
     if (this.form.valid) {
-      // your code goes here
-      // console.log(values);
+      this.registerService.postRegister({
+        name:values.name,
+        email:values.email,
+        password:values.passwords.password
+      }).subscribe((response)=>{
+        alert(response.resultMess)
+      })
     }
   }
 }

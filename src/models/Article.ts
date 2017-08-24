@@ -17,7 +17,7 @@ export type ArticleModel = mongoose.Document & {
 
 
 var articleSchema = new Schema({
-    _id: { type: Number, unique: true },
+    id: { type: Number, unique: true },
     _creator: { type: String, ref: 'User' },
     title: String,
     time: Date,
