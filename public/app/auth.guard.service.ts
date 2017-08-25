@@ -29,7 +29,7 @@ export class AuthGuard  {
             });
     }
     logout():Observable<any> {
-        return this.http.get(configUri.logout).map(res => {        
+        return this.http.post(configUri.logout,{}).map(res => {        
             return res.json();
         });
     }

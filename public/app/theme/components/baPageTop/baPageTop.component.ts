@@ -30,9 +30,11 @@ export class BaPageTop {
     this.isScrolled = isScrolled;
   }
   logout(){
-    this.authGuard.logout().subscribe(response =>{
-      alert(response.resultMess);
-      location.reload();
+    this.authGuard.logout().subscribe((response) =>{
+      if(response.resultCode ==1){
+        alert(response.resultMess);
+        location.reload();
+      }  
     })
   }
 }

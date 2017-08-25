@@ -1,10 +1,9 @@
+import { routing } from './login.routing';
 import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PnfModule } from '../../theme/pnf.module';
 
 import { Login } from './login.component';
-import { routing }       from './login.routing';
 
 
 @NgModule({
@@ -12,7 +11,6 @@ import { routing }       from './login.routing';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    PnfModule,
     routing
   ],
   declarations: [

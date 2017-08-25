@@ -26,14 +26,14 @@ export class Login {
     this.password = this.form.controls['password'];
   }
 
-  public onSubmit(values:Object):void {
+  public onSubmit(values:any):void {
     this.submitted = true;
     if (this.form.valid) {
       this.loginService.postLogin({
         email:values.email,
         password:values.password}).subscribe((response)=>{
           if(response.resultCode ==1){
-            this.router.navigate(['/page/home']);
+            this.router.navigate(['/pages/home']);
           }
         })
       // your code goes here

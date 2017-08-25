@@ -12,12 +12,11 @@ passport.serializeUser<any, any>((user, done) => {
   done(undefined, user._id);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
+passport.deserializeUser((_id, done) => {
+  User.findById(_id, (err, user) => {
     done(err, user);
   });
 });
-
 
 passport.use(new LocalStrategy({ usernameField: "email" },
     (email, password, done)=>{

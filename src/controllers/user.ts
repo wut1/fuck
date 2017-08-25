@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from "express";
 import * as async from "async";
 import * as crypto from "crypto";
 import { tranferJson } from './../util/util';
-
+import * as nodemailer from 'nodemailer';
 
 
 export let postLogin = (req:Request,res:Response,next:NextFunction)=>{
@@ -51,3 +51,94 @@ export let logout = (req:Request,res:Response,next:NextFunction)=>{
     req.logout();
     res.send(tranferJson({status:1,message:'退出成功'}))
 }
+
+export let postForgot = (req: Request, res: Response, next: NextFunction) => {
+    async.waterfall([
+      function createRandomToken(done: Function) {
+        crypto.randomBytes(16, (err, buf) => {
+          const token = buf.toString("hex");
+          done(err, token);
+        });
+      },
+      function setRandomToken(token: AuthToken, done: Function) {
+        User.findOneAndUpdate({ email: req.body.email },{$set:{
+          passwordResetToken:token,
+          passwordResetExpires:Date.now() + 3600000
+        }}, (err, user: any) => {
+          if (err) { return done(err); }
+          if (!user) {
+            res.send(tranferJson({status:0,message:'用户不存在'}));
+            return;
+          }
+      
+          // userInfo.passwordResetToken = token;
+          // userInfo.passwordResetExpires = Date.now() + 3600000; // 1 hour
+          done(err, token, user);
+          // user.update({_id: userInfo._id}, userInfo, {upsert: true},(err:WriteError)=>{
+            
+          // })
+          // user.save((err: WriteError,userInfo:UserModel) => {
+          //   if(err) console.log(err);
+          //   console.log(userInfo)
+          //     //done(err, token, user);
+          // });
+        });
+      },
+      function sendForgotPasswordEmail(token: AuthToken, user: UserModel, done: Function) {
+        const transporter = nodemailer.createTransport({
+          service: "qq",
+          auth: {
+            user: process.env.SENDGRID_USER,
+            pass: process.env.SENDGRID_PASSWORD
+          }
+        });
+        const mailOptions = {
+          to: user.email,
+          from: process.env.SENDGRID_USER,
+          subject: "重置你的cling密码",
+          text: `点击链接修改密码.\n\n
+            http://${req.headers.host}/reset/${token}\n\n
+            1小时内有效.\n`
+        };
+        transporter.sendMail(mailOptions, (err) => {
+          if(err) done(err);    
+            res.send(tranferJson({status:1,message:'邮件发送成功!'}))
+        });
+      }
+    ], (err) => {
+      if (err) { return next(err); }
+      res.send(tranferJson({status:0,message:'邮件发送错误'}))
+    });
+  };
+
+  export let postReset = (req: Request, res: Response, next: NextFunction) => {
+    async.waterfall([
+      function resetPassword(done: Function) {
+        User
+          .findOne({ passwordResetToken: req.params.token||req.body.token })
+          .where("passwordResetExpires").gt(Date.now())
+          .exec((err, user: any) => {
+            if (err) { return next(err); }
+            if (!user) {
+              res.send(tranferJson({status:0,message:'要修改密码的用户不存在'}));
+              return;
+            }
+            user.password = req.body.password;
+            user.passwordResetToken = undefined;
+            user.passwordResetExpires = undefined;
+            user.save((err: WriteError) => {
+              if (err) { return next(err); }
+              req.logIn(user, (err) => {
+                if(err) {
+                  done(err);
+                };
+                res.send(tranferJson({status:1,message:'密码修改成功'}));
+              });
+            });
+          });
+      }
+    ], (err) => {
+      if (err) { return next(err); }
+     
+    });
+  };

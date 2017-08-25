@@ -23,7 +23,6 @@ export class DetailComponent{
     .switchMap((params: ParamMap) => {
       // (+) before `params.get()` turns the string into a number
       let selectedId = +params.get('id');
-      console.log(selectedId)
       return this.detailService.getArticleDetail({id:selectedId});
     }).subscribe((response)=>{
       if(response.resultCode==1){

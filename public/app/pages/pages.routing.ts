@@ -14,6 +14,14 @@ export const routes: Routes = [
     loadChildren: './register/register.module#RegisterModule'
   },
   {
+    path: 'forget',
+    loadChildren: './forget/forget.module#ForgetModule'
+  },
+  {
+    path: 'reset/:token',
+    loadChildren: './reset/reset.module#ResetModule'
+  },
+  {
     path: 'pages',
     component: Pages,
     children: [

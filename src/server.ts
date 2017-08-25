@@ -20,7 +20,7 @@ const MongoStore = mongo(session);
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.config({ path: ".env.example" });
+dotenv.config();
 
 /**
  * Create Express server.
@@ -77,6 +77,10 @@ app.post("/v1/register",userController.postRegister);
 app.get("/v1/getUser",userController.getUser);
 app.post("/v1/getUser",userController.getUser);
 app.get("/v1/logout",userController.logout);
+app.post("/v1/logout",userController.logout);
+app.post("/v1/forget",userController.postForgot);
+app.get("/v1/reset",userController.postReset);
+app.post("/v1/reset",userController.postReset);
 
 
 // app.get('/*', function(req, res){
