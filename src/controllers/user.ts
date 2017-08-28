@@ -7,7 +7,7 @@ import * as async from "async";
 import * as crypto from "crypto";
 import { tranferJson } from './../util/util';
 import * as nodemailer from 'nodemailer';
-
+import * as uniqid from 'uniqid'
 
 export let postLogin = (req:Request,res:Response,next:NextFunction)=>{
     passport.authenticate('local', function(err:Error, user:UserModel, info:LocalStrategyInfo) {
@@ -27,6 +27,7 @@ export let postLogin = (req:Request,res:Response,next:NextFunction)=>{
 
 export let postRegister = (req:Request,res:Response,next:NextFunction)=>{
     let user = new User({
+        id:uniqid('id-'),
         name: req.body.name,
         email: req.body.email,
         password: req.body.password
