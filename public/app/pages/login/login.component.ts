@@ -34,6 +34,8 @@ export class Login {
         password:values.password}).subscribe((response)=>{
           if(response.resultCode ==1){
             this.router.navigate(['/pages/home']);
+          } else {
+            alert(response.resultMess)
           }
         })
       // your code goes here

@@ -13,7 +13,7 @@ import * as mongo from "connect-mongo";
 import * as path from "path";
 import * as mongoose from "mongoose";
 import * as passport from "passport";
-import "./config/passport";
+
 
 const MongoStore = mongo(session);
 
@@ -65,6 +65,7 @@ app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
 app.use(express.static(path.join(__dirname, "public")));
 
+import './config/passport';
 import * as articleController from './controllers/article';
 import * as userController from './controllers/user';
 

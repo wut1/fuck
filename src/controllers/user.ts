@@ -11,10 +11,15 @@ import * as nodemailer from 'nodemailer';
 
 export let postLogin = (req:Request,res:Response,next:NextFunction)=>{
     passport.authenticate('local', function(err:Error, user:UserModel, info:LocalStrategyInfo) {
+        // if(info.message){  
+        //   res.send(tranferJson({status:0,message:info.message}))
+        // }
         if (err) { return next(err); }
-        if (!user) { res.send(tranferJson({status:0,message:'用户不存在'})) }
+        if (!user) {
+          res.send(tranferJson({status:0,message:info.message})) }
         req.logIn(user, function(err) {
-          if (err) { return next(err); }
+          if (err) { 
+            return next(err); }
           res.send(tranferJson({status:1,message:'登录成功'}))
         });
       })(req, res, next);
@@ -61,27 +66,18 @@ export let postForgot = (req: Request, res: Response, next: NextFunction) => {
         });
       },
       function setRandomToken(token: AuthToken, done: Function) {
-        User.findOneAndUpdate({ email: req.body.email },{$set:{
-          passwordResetToken:token,
-          passwordResetExpires:Date.now() + 3600000
-        }}, (err, user: any) => {
+        User.findOne({ email: req.body.email }, (err, user: any) => {
           if (err) { return done(err); }
           if (!user) {
             res.send(tranferJson({status:0,message:'用户不存在'}));
             return;
-          }
-      
-          // userInfo.passwordResetToken = token;
-          // userInfo.passwordResetExpires = Date.now() + 3600000; // 1 hour
-          done(err, token, user);
-          // user.update({_id: userInfo._id}, userInfo, {upsert: true},(err:WriteError)=>{
-            
-          // })
-          // user.save((err: WriteError,userInfo:UserModel) => {
-          //   if(err) console.log(err);
-          //   console.log(userInfo)
-          //     //done(err, token, user);
-          // });
+          }        
+          user.passwordRestToken = token;
+          user.passwordRestExpires = Date.now() + 3600000; // 1 hour
+          user.save((err: WriteError,userInfo:UserModel) => {
+            if(err) return done(err);
+              done(err, token, user);
+          });
         });
       },
       function sendForgotPasswordEmail(token: AuthToken, user: UserModel, done: Function) {
@@ -115,8 +111,8 @@ export let postForgot = (req: Request, res: Response, next: NextFunction) => {
     async.waterfall([
       function resetPassword(done: Function) {
         User
-          .findOne({ passwordResetToken: req.params.token||req.body.token })
-          .where("passwordResetExpires").gt(Date.now())
+          .findOne({ passwordRestToken: req.params.token||req.body.token })
+          .where("passwordRestExpires").gt(Date.now())
           .exec((err, user: any) => {
             if (err) { return next(err); }
             if (!user) {
@@ -124,8 +120,8 @@ export let postForgot = (req: Request, res: Response, next: NextFunction) => {
               return;
             }
             user.password = req.body.password;
-            user.passwordResetToken = undefined;
-            user.passwordResetExpires = undefined;
+            user.passwordRestToken = undefined;
+            user.passwordRestExpires = undefined;
             user.save((err: WriteError) => {
               if (err) { return next(err); }
               req.logIn(user, (err) => {

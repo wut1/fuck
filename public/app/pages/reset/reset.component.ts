@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router,ActivatedRoute,ParamMap  } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -40,9 +41,10 @@ export class ResetComponent implements OnInit {
         ngOnInit(){
             this.route.paramMap
             .switchMap((params: ParamMap) => {
-              return params.get('token');
+              let str = params.get('token');
+              this.token = str;
+              return str;
             }).subscribe(res=>{
-                this.token = res;
             })
         }
 
