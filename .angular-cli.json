@@ -4,8 +4,8 @@
         "name": "wstie"
     },
     "apps": [{
-        "root": "public",
-        "outDir": "dist/public",
+        "root": "side_client",
+        "outDir": "dist_client",
         "assets": [
             "assets"
         ],
