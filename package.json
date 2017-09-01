@@ -1,10 +1,10 @@
 {
     "name": "fuck",
     "version": "0.1.0",
-    "description": "A starting point for Node.js express apps with TypeScript",
+    "description": "learn",
     "repository": {
         "type": "git",
-        "url": "https://github.com/sahat/hackathon-starter.git"
+        "url": "https://github.com/wut1/fuck.git"
     },
     "author": "chex",
     "license": "MIT",
@@ -22,7 +22,7 @@
         "build:server": "npm run clean:dist_server && npm run build-ts",
         "build-ts": "tsc --project tsconfig.server.json",
         "serve": "nodemon dist_server/server.js",
-        "watch:server": "concurrently -k -p \"[{name}]\" -n \"Node,TypeScript\" -c \"yellow.bold,cyan.bold\" \"npm run serve\" \"npm run watch-ts\" ",
+        "watch:server": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\"  \"npm run watch-ts\"  \"npm run serve\"",
         "watch-ts": "tsc --project tsconfig.server.json -w"
     },
     "dependencies": {

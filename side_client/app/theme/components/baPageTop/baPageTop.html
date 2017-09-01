@@ -1,4 +1,11 @@
 <div class="page-top clearfix">
+    <nav>
+        <div id="nav-icon4" [class.open]="open" (click)="toggle()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
     <div class="user-profile clearfix">
         <div class="dropdown al-user-profile">
             <a *ngIf="(user | async)?.avatar" class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">

@@ -46,6 +46,8 @@ export let getDetail = (req:Request,res: Response) => {
         if(!item){
             resultJson = {};
         } else {
+            item.meta.look++;
+            item.save()
          resultJson = {
                 title:item.title,
                 time:item.time,

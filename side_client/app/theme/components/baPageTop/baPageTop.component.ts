@@ -10,6 +10,7 @@ import {GlobalState} from '../../../global.state';
   providers:[AuthGuard]
 })
 export class BaPageTop {
+  open:boolean =false;
   @Input() user: any;
   public isScrolled:boolean = false;
   public isMenuCollapsed:boolean = false;
@@ -28,6 +29,9 @@ export class BaPageTop {
 
   public scrolledChanged(isScrolled) {
     this.isScrolled = isScrolled;
+  }
+  toggle(){
+    this.open = !this.open;
   }
   logout(){
     this.authGuard.logout().subscribe((response) =>{

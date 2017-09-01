@@ -2,6 +2,9 @@ import { AuthGuard } from './../auth.guard.service';
 import { Component} from '@angular/core';
 import { Routes } from '@angular/router';
 
+//import { BaMenuService } from '../theme';
+import { PAGES_MENU } from './pages.menu';
+
 @Component({
   selector: 'pages',
   template: `
@@ -20,5 +23,6 @@ export class Pages {
   }
   ngOnInit(){
     this.user = this.userServer.getUser();
+    //this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU);
   }
 }

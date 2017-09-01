@@ -88,7 +88,7 @@ app.post("/v1/reset",userController.postReset);
 //   res.sendFile(__dirname + '/index.html');
 // });
 app.all('*', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(path.join(__dirname, "../dist_client/index.html"));
 });
 app.use(errorHandler());
 
