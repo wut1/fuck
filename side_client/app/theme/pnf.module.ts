@@ -5,26 +5,45 @@ import { RouterModule } from '@angular/router';
 
 import {
   BaBackTopComponent,
-  BaPageTop
+  BaPageTop,
+  BaSidebar,
+  BaMenu,
+  BaMenuItem
 } from './components';
 
 import {
   MomentTime
 } from './pipes';
+import {
+  BaSlimScroll,
+} from './directives';
+import {
+  BaMenuService
+} from './services';
 
 const PNF_COMPONENTS = [
   BaBackTopComponent,
-  BaPageTop
+  BaPageTop,
+  BaSidebar,
+  BaMenu,
+  BaMenuItem
 ]
 
 const PNF_PIPES = [
   MomentTime
 ]
+const PNF_DIRECTIVES = [
+  BaSlimScroll
+];
+const PNF_SERVICES = [
+  BaMenuService
+]
 
 @NgModule({
   declarations: [
     ...PNF_COMPONENTS,
-    ...PNF_PIPES
+    ...PNF_PIPES,
+    ...PNF_DIRECTIVES
   ],
   imports: [
     CommonModule,
@@ -32,7 +51,8 @@ const PNF_PIPES = [
   ],
   exports: [
     ...PNF_COMPONENTS,
-    ...PNF_PIPES
+    ...PNF_PIPES,
+    ...PNF_DIRECTIVES
   ]
 })
 export class PnfModule {
@@ -40,6 +60,7 @@ export class PnfModule {
     return <ModuleWithProviders> {
       ngModule: PnfModule,
       providers: [
+        ...PNF_SERVICES
       ],
     };
   }

@@ -27,7 +27,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      { path: 'detail/:id', loadChildren:'./detail/detail.module#DetailModule' }
+      { path: 'detail/:id', loadChildren:'./detail/detail.module#DetailModule' },
+      { path: 'publish', loadChildren:'./publish/publish.module#PublishModule',canLoad:[AuthGuard] }
     ]
   }
 ];

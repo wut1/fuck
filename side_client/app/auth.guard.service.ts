@@ -15,9 +15,11 @@ export class AuthGuard  {
     checkLogin():Observable<boolean>{
         return this.http.post(configUri.isLogin,{}).map(res => {
             let response = res.json();
-                if(response.resultCode ==1){           
+                if(response.resultCode ==1){ 
+                         
                     return true;
                 } else if(response.resultCode ==0){
+                    alert('请先登录')    
                     return false;         
                 }
             })

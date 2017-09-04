@@ -12,7 +12,8 @@ import { Pages } from './pages.component';
 
 @NgModule({
   imports: [CommonModule,HomeModule,PnfModule,routing],
-  declarations: [Pages]
+  declarations: [Pages],
+  providers:[AuthGuard]
 })
 export class PagesModule {
 }
