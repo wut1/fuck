@@ -19,20 +19,21 @@ export class AuthGuard  {
                          
                     return true;
                 } else if(response.resultCode ==0){
-                    alert('请先登录')    
+                    alert('请先登录');
+                    this.router.navigate(['/login']);
                     return false;         
                 }
             })
     }
 
     getUser():Observable<any> {
-        return this.http.post(configUri.isLogin,{}).map(res => {    
+        return this.http.post(configUri.isLogin,{}).map(res => {   
             if(res.json().resultCode==1){
                 return res.json().resultObj;
             } else {
                 return {};
             }         
-            });
+        });
     }
     logout():Observable<any> {
         return this.http.post(configUri.logout,{}).map(res => {        

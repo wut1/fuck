@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 
 export type ArticleModel = mongoose.Document & {
-    _id:number,
+    id:string,
     _creator:any,
     title:string,
     time: Date,
@@ -17,7 +17,7 @@ export type ArticleModel = mongoose.Document & {
 
 
 var articleSchema = new Schema({
-    id: { type: Number, unique: true },
+    id: { type: String, unique: true },
     _creator: { type: String, ref: 'User' },
     title: String,
     time: Date,
@@ -28,6 +28,12 @@ var articleSchema = new Schema({
         comments: Number,
     }
 });
-
+articleSchema.pre('save',function(next){
+    let self = this;
+    if(!self.id){
+      self.id = self._id.toString();
+    }
+    next();
+})
 var Article = mongoose.model('Article', articleSchema);
 export default Article;

@@ -68,6 +68,7 @@ app.use(express.static(path.join(__dirname, "../dist_client")));
 import './config/passport';
 import * as articleController from './controllers/article';
 import * as userController from './controllers/user';
+import * as apiController from './controllers/api';
 
 app.get("/v1/atricles", articleController.getNote);
 app.post("/v1/atricles", articleController.getNote);
@@ -82,6 +83,9 @@ app.post("/v1/logout",userController.logout);
 app.post("/v1/forget",userController.postForgot);
 app.get("/v1/reset",userController.postReset);
 app.post("/v1/reset",userController.postReset);
+app.post("/v1/publish",articleController.publish);
+
+app.post('/v1/upload', apiController.postFileUpload);
 
 
 // app.get('/*', function(req, res){
@@ -92,6 +96,12 @@ app.all('*', function (req, res) {
 });
 app.use(errorHandler());
 
+import * as fs from 'fs';
+var filesDir = path.join(path.dirname(require.main.filename), "uploads");
+
+if (!fs.existsSync(filesDir)){
+ fs.mkdirSync(filesDir);
+}
 /**
  * Start Express server.
  */

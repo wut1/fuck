@@ -8,4 +8,6 @@ configUri.isLogin = '/v1/getUser';
 configUri.logout = '/v1/logout';
 configUri.forget = '/v1/forget';
 configUri.reset = '/v1/reset';
+configUri.publish = '/v1/publish';
+configUri.upload = '/v1/upload';
 

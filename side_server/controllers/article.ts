@@ -39,7 +39,7 @@ export let getNote = (req:Request,res: Response) => {
 }
 
 export let getDetail = (req:Request,res: Response) => {
-    let id = +req.query.id || +req.body.id||0;
+    let id = req.query.id || req.body.id;
     Article.findOne({id:id}).populate('_creator').exec(function(err:WriteError,item:ArticleModel){
         if(err) return;
         let resultJson;
@@ -61,6 +61,24 @@ export let getDetail = (req:Request,res: Response) => {
             };
         }
         res.send(tranferJson({status:1},resultJson));
+    })
+}
+
+export let publish = (req:Request,res: Response,next:NextFunction)=>{
+    let article = new Article({
+        title: req.body.title,
+        content: req.body.editor,
+        time:Date.now(),
+        _creator:req.user._id,
+        meta:{
+            look: 0,
+            favs: 0,
+            comments: 0
+        }
+    })
+    article.save((error:any,note)=>{
+        if(error) return next(error);
+        res.send(tranferJson({status:1,message:'发布成功'}))         
     })
 }
 
