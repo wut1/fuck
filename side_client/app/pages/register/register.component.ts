@@ -2,6 +2,7 @@ import { RegisterService } from './register.service';
 import {Component} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmailValidator, EqualPasswordsValidator} from '../../theme/validators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'register',
@@ -20,7 +21,7 @@ export class Register {
 
   public submitted:boolean = false;
 
-  constructor(fb:FormBuilder,private registerService:RegisterService) {
+  constructor(fb:FormBuilder,private registerService:RegisterService,private router:Router) {
 
     this.form = fb.group({
       'name': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -46,7 +47,8 @@ export class Register {
         email:values.email,
         password:values.passwords.password
       }).subscribe((response)=>{
-        alert(response.resultMess)
+        alert(response.resultMess);
+        this.router.navigate(['/pages/home']);
       })
     }
   }

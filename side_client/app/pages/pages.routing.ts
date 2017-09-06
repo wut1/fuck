@@ -1,4 +1,4 @@
-import { AuthGuard } from './../auth.guard.service';
+import { AuthGuard } from '../auth.guard.service';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule }  from '@angular/router';
 import { Pages } from './pages.component';

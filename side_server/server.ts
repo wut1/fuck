@@ -65,7 +65,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
-app.use(express.static(path.join(__dirname)));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname ,'../dist_client')));
 
 import './config/passport';
 import * as articleController from './controllers/article';
@@ -86,13 +87,8 @@ app.post("/v1/forget",userController.postForgot);
 app.get("/v1/reset",userController.postReset);
 app.post("/v1/reset",userController.postReset);
 app.post("/v1/publish",articleController.publish);
-
 app.post('/v1/upload', apiController.postFileUpload);
 
-
-// app.get('/*', function(req, res){
-//   res.sendFile(__dirname + '/index.html');
-// });
 app.all('/*', function (req, res) {
   res.sendFile(path.join(__dirname, "../dist_client/index.html"));
 });

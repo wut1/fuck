@@ -1,8 +1,8 @@
 
 import { FormsModule } from '@angular/forms';
-import { AuthGuard } from './../auth.guard.service';
+import { AuthGuard } from '../auth.guard.service';
 import { HomeModule } from './home/home.module';
-import { PnfModule } from './../theme/pnf.module';
+import { PnfModule } from '../theme/pnf.module';
 import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 

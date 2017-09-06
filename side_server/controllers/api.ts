@@ -8,6 +8,7 @@ export let postFileUpload = (req:Request,res: Response,next:NextFunction)=>{
            if (err) {
              return res.status(404).end(JSON.stringify(err));
            }      
-           res.send({link:`http://${req.headers.host}${data.link}`});
+           //res.send({link:`http://${req.headers.host}${data.link}`});
+           res.send(data);
          });
 }

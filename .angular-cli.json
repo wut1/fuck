@@ -32,7 +32,7 @@
     "defaults": {
         "styleExt": "less",
         "build": {
-            "sourcemaps": true
+            "sourcemaps": false
         }
     }
 }

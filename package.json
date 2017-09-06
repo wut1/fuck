@@ -11,7 +11,7 @@
     "scripts": {
         "ng": "ng",
         "ng:build": "npm run clean:dist_client && ng build",
-        "ng:build:prod": "npm run ng:build -- --env=prod",
+        "ng:build:prod": "npm run ng:build -- --environment=prod",
         "ng:build:prod:aot": "npm run ng:build:prod -- --aot",
         "clean:dist_client": "node rmStaticAsset dist_client",
         "clean:dist_server": "node rmStaticAsset dist_server",
