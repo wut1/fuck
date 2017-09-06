@@ -59,11 +59,13 @@ app.use(session({
     maxAge: 30*60*1000
   }
 }));;
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
-app.use(express.static(path.join(__dirname, "../dist_client")));
+app.use(express.static(path.join(__dirname)));
 
 import './config/passport';
 import * as articleController from './controllers/article';
@@ -91,17 +93,11 @@ app.post('/v1/upload', apiController.postFileUpload);
 // app.get('/*', function(req, res){
 //   res.sendFile(__dirname + '/index.html');
 // });
-app.all('*', function (req, res) {
+app.all('/*', function (req, res) {
   res.sendFile(path.join(__dirname, "../dist_client/index.html"));
 });
 app.use(errorHandler());
 
-import * as fs from 'fs';
-var filesDir = path.join(path.dirname(require.main.filename), "uploads");
-
-if (!fs.existsSync(filesDir)){
- fs.mkdirSync(filesDir);
-}
 /**
  * Start Express server.
  */

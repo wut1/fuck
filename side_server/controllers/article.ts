@@ -8,7 +8,7 @@ import * as htmlToText from 'html-to-text'
 export let getNote = (req:Request,res: Response) => {
     let page = +req.body.page||+req.query.page || 0;
     let courent = 10;
-    let num =  page * courent + 1;
+    let num =  page * courent;
     
     Article.find().sort({time:'desc'}).limit(courent).skip(num).populate('_creator').exec(function(err,articles:ArticleModel[]){
         if(err) return;

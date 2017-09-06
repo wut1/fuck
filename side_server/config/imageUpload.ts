@@ -1,27 +1,27 @@
-var Busboy = require("busboy");
-var path = require("path");
-var fs = require("fs");
-var sha1 = require("sha1");
+import * as Busboy from 'busboy';
+import * as path from "path";
+import * as  fs from "fs";
+import * as sha1 from "sha1";
 
 // Gets a filename extension.
-function getExtension(filename) {
+ let getExtension =(filename)=> {
     return filename.split(".").pop();
 }
 
 // Test if a image is valid based on its extension and mime type.
-function isImageValid(filename, mimetype) {
-    var allowedExts = ["gif", "jpeg", "jpg", "png", "svg", "blob"];
-    var allowedMimeTypes = ["image/gif", "image/jpeg", "image/pjpeg", "image/x-png", "image/png", "image/svg+xml"];
+let isImageValid =(filename, mimetype)=> {
+    let allowedExts = ["gif", "jpeg", "jpg", "png", "svg", "blob"];
+    let allowedMimeTypes = ["image/gif", "image/jpeg", "image/pjpeg", "image/x-png", "image/png", "image/svg+xml"];
 
     // Get image extension.
-    var extension = getExtension(filename);
+    let extension = getExtension(filename);
 
     return allowedExts.indexOf(extension.toLowerCase()) != -1 &&
         allowedMimeTypes.indexOf(mimetype) != -1;
 }
 
 export let upload = (req, callback)=>{
-    console.log('nimam========>')
+    let busboy:any;
         // The route on which the image is saved.
     var fileRoute = "/uploads/";
 
@@ -35,7 +35,7 @@ export let upload = (req, callback)=>{
     var link = null;
 
     // Stream error handler.
-    function handleStreamError(error) {
+    let handleStreamError =(error)=>{
             // Do not enter twice in here.
         if (hadStreamError) {
             return;
@@ -55,13 +55,13 @@ export let upload = (req, callback)=>{
 
     // Instantiate Busboy.
     try {
-        var busboy = new Busboy({ headers: req.headers });
+        busboy = new Busboy({ headers: req.headers });
     } catch (e) {
         return callback(e);
     }
 
     // Handle file arrival.
-    busboy.on("file", function(fieldname, file, filename, encoding, mimetype) {
+    busboy.on("file", (fieldname, file, filename, encoding, mimetype)=>{
         // Check fieldname:
         if ("file" != fieldname) {
             // Stop receiving from this stream.
@@ -85,10 +85,9 @@ export let upload = (req, callback)=>{
         diskWriterStream.on("error", handleStreamError);
 
         // Validate image after it is successfully saved to disk.
-        diskWriterStream.on("finish", function() {
+        diskWriterStream.on("finish", ()=>{
             // Check if image is valid
             var status = isImageValid(saveToPath, mimetype);
-            console.log(status)
             if (!status) {
                 return handleStreamError("File does not meet the validation.");
             }
