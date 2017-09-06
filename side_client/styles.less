@@ -341,7 +341,7 @@
 	}
   }
 a,a:hover {
-	color:#d3531a;
+	color:#e60b3e;
 }
 
 .menu-collapsed .al-sidebar {
@@ -350,3 +350,36 @@ a,a:hover {
   .has-error .fr-wrapper {
 	border: 1px solid #fa758e;
 }
+
+.slimScrollDiv{
+	width: 100%;
+	margin-right: 5px;
+	border-right: 0px solid darken(#F64870, 15%);
+	background-color: #F64870;
+	transition-duration: 0.2s;
+	overflow: hidden;
+	height: 0px;
+	
+	ul{
+	  width: 100%;
+	  margin: 0 auto;
+	  padding: 0;
+	  
+	  li{
+		transition-duration: 0.3s;
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+		padding: 10px 0;
+		height: 50px;
+		
+		a{
+		  color: white;
+		}
+		
+		&:hover{
+		  background-color: darken(#F64870, 15%);
+		}
+	  }
+	}
+  }
