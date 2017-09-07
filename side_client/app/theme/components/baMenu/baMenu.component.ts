@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 
 import { BaMenuService } from '../../services';
@@ -12,9 +13,7 @@ import { GlobalState } from '../../../global.state';
 })
 export class BaMenu {
 
-  @Input() sidebarCollapsed: boolean = false;
-  @Input() menuHeight: number;
-
+  @Input() sidebarCollapsed: boolean;
   @Output() expandMenu = new EventEmitter<any>();
 
   public menuItems: any[];
@@ -25,7 +24,7 @@ export class BaMenu {
   protected _onRouteChange: Subscription;
   public outOfArea: number = -200;
 
-  constructor(private _router: Router, private _service: BaMenuService, private _state: GlobalState) {
+  constructor(private _router: Router, private _service: BaMenuService, private _state: GlobalState,private _element:ElementRef) {
   
   }
 
@@ -66,9 +65,8 @@ export class BaMenu {
     this.showHoverElem = true;
     this.hoverElemHeight = $event.currentTarget.clientHeight;
     // TODO: get rid of magic 66 constant
-    this.hoverElemTop = $event.currentTarget.getBoundingClientRect().top - 66;
+    this.hoverElemTop = $event.currentTarget.getBoundingClientRect().top - 60;
   }
-
   public toggleSubMenu($event): boolean {
     let submenu = jQuery($event.currentTarget).next();
 
@@ -83,5 +81,12 @@ export class BaMenu {
     }
 
     return false;
+  }
+  public changeHoverElemTop(){
+    let top:number = 0;
+    if(this._element.nativeElement.querySelector('.selected')){
+      top = this._element.nativeElement.querySelector('.selected').getBoundingClientRect().top - 60;
+    }
+    this.hoverElemTop = top;
   }
 }

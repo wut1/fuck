@@ -54,4 +54,13 @@ export class PublishComponent{
               },
           }
       }
+      ngAfterViewInit(){
+        var temp = document.getElementsByTagName("a");
+        var i = 0;
+        for(i=0;i<temp.length;i++){
+            if(temp[i].href.indexOf("https://www.froala.com/wysiwyg-editor")>-1){           
+                temp[i].parentNode.parentNode.removeChild(temp[i].parentNode.parentNode.childNodes[0]);
+            }
+        }
+      }
 }
