@@ -89,6 +89,11 @@ app.post("/v1/reset",userController.postReset);
 app.post("/v1/publish",articleController.publish);
 app.post('/v1/upload', apiController.postFileUpload);
 
+app.get('/auth/github', passport.authenticate('github',{ scope: [ 'user:email' ] }));
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+ res.redirect('/')
+});
+
 app.all('/*', function (req, res) {
   res.sendFile(path.join(__dirname, "../dist_client/index.html"));
 });

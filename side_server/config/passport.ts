@@ -1,8 +1,8 @@
 import * as passport from 'passport';
-import { UserModel } from "./../models/User";
+import {default as User, UserModel } from "./../models/User";
 import * as passportLocal from "passport-local";
+import {Strategy as GitHubStrategy} from 'passport-github2';
 import { WriteError } from "mongodb";
-import { default as User} from '../models/User'
 
 
 
@@ -39,4 +39,34 @@ passport.use(new LocalStrategy({ usernameField: "email" },
     }
   ));
 
+  passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_ID,
+    clientSecret: process.env.GITHUB_SECRET,
+    callbackURL: '/auth/github/callback'
+  }, (accessToken, refreshToken, profile:any, done) => {
+    User.findOne({ github: profile.id },(err, existingUser)=>{
+      if (err) { return done(err); }
+      if (existingUser) {
+        done(null,existingUser)
+      }else {
+        User.findOne({ email: profile._json.email},(error,existingEmailUser)=>{
+          if (err) { return done(err); }
+          if (existingEmailUser) {
+            done(err);
+          } else {
+            let user:UserModel = new User({
+              email:profile._json.email,
+              github:profile.id
+            }) as UserModel;
+            user.tokens.push({ kind: 'github', accessToken });
+            user.name = profile.username;
+            user.avatar = profile._json.avatar_url;
+            user.save((err) => {
+              done(err, user);
+            });
+          }
+        })
+      }
+    })
+  }));
  

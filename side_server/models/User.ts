@@ -45,13 +45,14 @@ userSchema.methods.comparePassword = function(candidatePassword:string, cb:(err:
   };
   userSchema.pre('save',function(next){
       let self = this;
+      if(!self.id){
+        self.id = self._id.toString();
+      }
       if(!self.isModified('password')){return next()};
       if(!self.avatar) {
         self.avatar = self.gravatar();
       }
-      if(!self.id){
-        self.id = self._id.toString();
-      }
+      
       bcrypt.genSalt(10,(error:Error,result)=>{
           if(error) return next(error);
           bcrypt.hash(self.password,result,undefined,(err:Error,hash)=>{
