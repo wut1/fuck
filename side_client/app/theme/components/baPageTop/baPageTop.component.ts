@@ -11,7 +11,7 @@ import {GlobalState} from '../../../global.state';
   providers:[AuthGuard]
 })
 export class BaPageTop {
-  user: any={};
+  @Input() user:any;
   public isScrolled:boolean = false;
   public isMenuCollapsed:boolean = true;
 
@@ -31,7 +31,9 @@ export class BaPageTop {
     this.isScrolled = isScrolled;
   }
   ngOnInit() {
-    this.user = this.authGuard.getUser();
+    this.authGuard.getUser().subscribe((response)=>{
+      this.user = response;
+    });
     this.router.events.subscribe((event:any) => {
       if(event.url){
         this._state.notifyDataChanged('menu.isCollapsed', true);

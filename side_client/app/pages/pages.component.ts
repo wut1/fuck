@@ -7,8 +7,7 @@ import { PAGES_MENU } from './pages.menu';
 
 @Component({
   selector: 'pages',
-  template: `
-  <ba-page-top></ba-page-top>
+  template: `<ba-page-top></ba-page-top>
   <ba-sidebar></ba-sidebar>
   <div class="wrap">
     <router-outlet></router-outlet>
