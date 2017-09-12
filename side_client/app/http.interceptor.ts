@@ -1,11 +1,21 @@
-import { Injectable } from '@angular/core';
-import {Observable} from 'Rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpHeaders,HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+
 import {environment} from '../environments/environment';
-import {ConnectionBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers,XHRBackend} from '@angular/http';
+
 @Injectable()
-export class InterceptedHttp extends Http {
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
-        super(backend, defaultOptions);
+export class InterceptedHttp implements HttpInterceptor {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let self = this;
+        const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+        const duplicate = req.clone({
+            url:environment.realHost+req.url,
+            headers:headers,
+            body:this.param(req.body)
+          });
+          
+        return next.handle(duplicate);
     }
     param(obj) {
         var query = '',
@@ -36,49 +46,4 @@ export class InterceptedHttp extends Http {
 
         return query.length ? query.substr(0, query.length - 1) : query;
     };
-    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        return super.request(url, options);
-    }
-
-    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        url = this.updateUrl(url);
-        return super.get(url, this.getRequestOptionArgs(options));
-    }
-
-    post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-        url = this.updateUrl(url);
-        let params = (body ? this.param(body):'');
-        let res = super.post(url, params, this.getRequestOptionArgs(options));
-        return res;
-    }
-
-    put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-        url = this.updateUrl(url);
-        return super.put(url, this.param(body), this.getRequestOptionArgs(options));
-    }
-
-    delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        url = this.updateUrl(url);
-        return super.delete(url, this.getRequestOptionArgs(options));
-    }
-
-    private updateUrl(req: string) {
-        return environment.realHost + req;  
-    }
-
-    private getRequestOptionArgs(options?: RequestOptionsArgs) : RequestOptionsArgs {
-        if (options == null) {
-            options = new RequestOptions();
-        }
-        if (options.headers == null) {
-            options.headers = new Headers();
-        }
-        options.headers.append('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-
-        return options;
-    }
-}
-
-export function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
-    return new InterceptedHttp(xhrBackend, requestOptions);
 }

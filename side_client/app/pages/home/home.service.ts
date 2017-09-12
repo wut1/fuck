@@ -1,13 +1,9 @@
-import { Http,Response } from '@angular/http';
+import { HttpClient  } from '@angular/common/http';
 import { Injectable,Inject } from '@angular/core';
-import 'rxjs/add/operator/map';
 @Injectable()
 export class HomeService {
-    constructor(private http:Http){}
+    constructor(private http:HttpClient){}
     getListArticle(obj){
-        return this.http.post(configUri.getArticles,obj)
-            .map((res:Response)=>{
-                return res.json();
-            })
+        return this.http.post<any>(CONFIGNI.getArticles,obj)
     }
 }

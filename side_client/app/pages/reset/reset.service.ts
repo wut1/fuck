@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient  } from '@angular/common/http';
 
 @Injectable()
 export class ResetService {
-    constructor(private http:Http){}
+    constructor(private http:HttpClient){}
     postRest(obj){
-        return this.http.post(configUri.reset,obj).map(res=>{
-            return res.json()
-        })
+        return this.http.post<any>(CONFIGNI.reset,obj);
     }
 }

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient  } from '@angular/common/http';
 
 @Injectable()
 export class ForgetService {
-    constructor(private http:Http){}
+    constructor(private http:HttpClient){}
     postForget(obj){
-        return this.http.post(configUri.forget,obj).map(res => {
-            return res.json()
-        })
+        return this.http.post<any>(CONFIGNI.forget,obj)
     }
 }

@@ -39,7 +39,7 @@ export class PublishComponent{
     public options: any = {
         placeholderText: '在这里编辑!',
         language:'zh_cn',
-        imageUploadURL:environment.realHost + configUri.upload,
+        imageUploadURL:environment.realHost + CONFIGNI.upload,
         imageErrorCallback: (data)=> {
             console.log(data)
         },
@@ -53,14 +53,5 @@ export class PublishComponent{
                     this.setControlValue(html);
               },
           }
-      }
-      ngAfterViewInit(){
-        var temp = document.getElementsByTagName("a");
-        var i = 0;
-        for(i=0;i<temp.length;i++){
-            if(temp[i].href.indexOf("https://www.froala.com/wysiwyg-editor")>-1){           
-                temp[i].parentNode.parentNode.removeChild(temp[i].parentNode.parentNode.childNodes[0]);
-            }
-        }
       }
 }

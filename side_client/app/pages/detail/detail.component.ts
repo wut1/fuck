@@ -1,6 +1,5 @@
 import { DetailService } from './detail.service';
 import { Router,ActivatedRoute,ParamMap  } from '@angular/router';
-import { Http } from '@angular/http';
 import {Component } from '@angular/core';
 
 import 'rxjs/add/operator/switchMap';

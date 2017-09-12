@@ -1,17 +1,14 @@
-import { PnfModule } from './theme/pnf.module';
-import { PagesModule } from './pages/pages.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-
+import { PnfModule } from './theme/pnf.module';
+import { PagesModule } from './pages/pages.module';
 import { GlobalState } from './global.state';
-import { HttpModule, Http, RequestOptions,XHRBackend } from '@angular/http';
-import {httpFactory} from './http.interceptor';
-
+import {InterceptedHttp} from './http.interceptor';
 import {routing} from './app.routing'
-
-import './app.config'
+import './app.constant';
 
 
 const APP_PROVIDERS = [
@@ -24,16 +21,17 @@ const APP_PROVIDERS = [
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     PnfModule.forRoot(),
     PagesModule,
     routing
   ],
-  providers: [...APP_PROVIDERS,{
-            provide: Http,
-            useFactory: httpFactory,
-            deps: [XHRBackend, RequestOptions]
-        }],
+  providers: [...APP_PROVIDERS,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptedHttp,
+      multi: true,
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

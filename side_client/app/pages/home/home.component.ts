@@ -1,6 +1,5 @@
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { Http } from '@angular/http';
 import { HomeService } from './home.service';
 import {Component } from '@angular/core';
 import 'rxjs/add/operator/exhaustMap';
