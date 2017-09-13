@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpHeaders,HttpParams } from '@angular/common/http';
+import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpResponse,HttpHeaders,HttpParams,HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
+import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/do'
 import {environment} from '../environments/environment';
 
 @Injectable()
 export class InterceptedHttp implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let self = this;
         const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
         const duplicate = req.clone({
             url:environment.realHost+req.url,
@@ -15,10 +16,18 @@ export class InterceptedHttp implements HttpInterceptor {
             body:this.param(req.body)
           });
           
-        return next.handle(duplicate);
+        return next.handle(duplicate).do((next:HttpResponse<any>)=>{ 
+            if(next.body && next.body.resultCode == 401){
+                console.log('未登陆')
+            }
+        },(err:HttpErrorResponse)=>{
+            if(err){
+                alert('网络异常')
+            }
+        })
     }
     param(obj) {
-        var query = '',
+        let query = '',
             name, value, fullSubName, subName, subValue, innerObj, i;
 
         for (name in obj) {

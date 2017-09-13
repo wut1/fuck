@@ -30,9 +30,6 @@
         }
     }],
     "defaults": {
-        "styleExt": "less",
-        "build": {
-            "sourcemaps": true
-        }
+        "styleExt": "less"
     }
 }

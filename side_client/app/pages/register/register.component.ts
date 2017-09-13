@@ -34,10 +34,11 @@ export class Register {
 
     this.name = this.form.controls['name'];
     this.email = this.form.controls['email'];
-    this.passwords = this.form.controls['passwords'] as FormGroup;
-    this.password = this.passwords.controls['password'];
-    this.repeatPassword = this.passwords.controls['repeatPassword'];
+    this.passwords = this.form.get('passwords') as FormGroup;
+    this.password = this.form.get('passwords.password');
+    this.repeatPassword =this.form.get('passwords.repeatPassword');
   }
+  
 
   public onSubmit(values:any):void {
     this.submitted = true;
@@ -48,7 +49,9 @@ export class Register {
         password:values.passwords.password
       }).subscribe((response)=>{
         alert(response.resultMess);
-        this.router.navigate(['/pages/home']);
+        if(response.resultCode ==1){
+          this.router.navigate(['/pages/home']);
+        }
       })
     }
   }
