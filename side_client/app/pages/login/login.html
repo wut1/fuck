@@ -2,25 +2,51 @@
     <div class="auth-block">
         <h1>登录</h1>
         <a routerLink="/register" class="auth-link">注册</a>
-        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
-            <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
-                <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="form-horizontal">
+            <article class="login-email" [hidden]="!emailLogin" formGroupName="emailGroup">
+                <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 
-                <div class="col-sm-10">
-                    <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="请输入邮箱">
+                    <div class="col-sm-10">
+                        <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="请输入邮箱">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
-                <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+                    <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
 
-                <div class="col-sm-10">
-                    <input [formControl]="password" type="password" class="form-control" id="inputPassword3" placeholder="请输入密码">
+                    <div class="col-sm-10">
+                        <input [formControl]="password" type="password" class="form-control" id="inputPassword3" placeholder="请输入密码">
+                    </div>
                 </div>
-            </div>
+            </article>
+            <article [hidden]="emailLogin" formGroupName="phoneGroup">
+                <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
+                    <label for="inputPhone" class="col-sm-2 control-label">手机号码</label>
+
+                    <div class="col-sm-10">
+                        <input [formControl]="phone" type="text" class="form-control" id="inputPhone" placeholder="请输入手机号码">
+                    </div>
+                </div>
+                <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+                    <label for="validateCode" class="col-sm-2 control-label">验证码</label>
+                    <div class="col-sm-10 row">
+                        <div class="col-sm-6">
+                            <input [formControl]="validateCode" type="text" id="validateCode" placeholder="请输入验证码">
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-success" (click)="sendNote()">发送验证码</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10">
-                    <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth">登录</button>
+                    <button [disabled]="(!form.controls.phoneGroup.valid && !emailLogin) || (!form.controls.emailGroup.valid && emailLogin)" type="submit" class="btn btn-default btn-auth">登录</button>
+
                     <a routerLink="/forget" class="forgot-pass">忘记密码</a>
+                </div>
+                <div class="col-sm-10">
+                    <button type="button" class="btn btn-primary" (click)="changeLogin()">切换登录方式</button>
                 </div>
             </div>
         </form>

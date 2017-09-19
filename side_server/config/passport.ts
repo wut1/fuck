@@ -20,7 +20,7 @@ passport.deserializeUser((_id, done) => {
   });
 });
 
-passport.use(new LocalStrategy({ usernameField: "email" },
+passport.use('local.email',new LocalStrategy({ usernameField:'email',passwordField:'password'},
     (email, password, done)=>{
       User.findOne({ email: email.toLowerCase() }, function (err:WriteError, user:UserModel) {
         if (err) { return done(err); }
@@ -38,6 +38,22 @@ passport.use(new LocalStrategy({ usernameField: "email" },
       });
     }
   ));
+  passport.use('local.phone',new LocalStrategy({usernameField:'phone',passwordField:'validateCode'  },(phone, validateCode, done)=>{
+    User.findOne({ name: phone}).exec((err, user:UserModel)=> {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false,{ message: "用户不存在" });
+      }
+      if(user.verificationCodeToken !=validateCode){
+        return done(null, false,{ message: "验证码不正确" });
+      } else if(user.verificationCodeExpires.getTime() < new Date().getTime()){
+        return done(null, false,{ message: "验证码超时" });
+      } else {
+        return done(null, user);
+      }
+    })
+  }
+));
 
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_ID,

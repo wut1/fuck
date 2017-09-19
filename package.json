@@ -26,6 +26,7 @@
         "watch-ts": "tsc --project tsconfig.server.json -w"
     },
     "dependencies": {
+        "@alicloud/sms-sdk": "^1.0.2",
         "@angular/animations": "^4.3.4",
         "@angular/cdk": "^2.0.0-beta.8",
         "@angular/common": "^4.3.4",

@@ -9,7 +9,7 @@ import { tranferJson } from './../util/util';
 import * as nodemailer from 'nodemailer';
 
 export let postLogin = (req:Request,res:Response,next:NextFunction)=>{
-    passport.authenticate('local', function(err:Error, user:UserModel, info:LocalStrategyInfo) {
+    passport.authenticate('local.email', function(err:Error, user:UserModel, info:LocalStrategyInfo) {
         // if(info.message){  
         //   res.send(tranferJson({status:0,message:info.message}))
         // }
@@ -23,6 +23,19 @@ export let postLogin = (req:Request,res:Response,next:NextFunction)=>{
         });
       })(req, res, next);
 }
+export let postLoginByNote = (req:Request,res:Response,next:NextFunction)=>{
+  passport.authenticate('local.phone', function(err:Error, user:UserModel, info:LocalStrategyInfo) {
+    if (err) { return next(err); }
+    if (!user) {
+      res.send(tranferJson({status:0,message:info.message})) 
+    }
+    req.logIn(user, function(err) {
+      if (err) { 
+        return next(err); }
+      res.send(tranferJson({status:1,message:'登录成功'}))
+    });
+    })(req, res, next);
+}
 
 export let postRegister = (req:Request,res:Response,next:NextFunction)=>{
     let user = new User({
@@ -30,7 +43,13 @@ export let postRegister = (req:Request,res:Response,next:NextFunction)=>{
         email: req.body.email,
         password: req.body.password
     });
-    User.findOne({email:req.body.email},(err:WriteError,resultUser:UserModel)=>{
+    User.findOne({
+      "$or":[{
+        email:req.body.email
+      },{
+        name:req.body.name
+      }]   
+    },(err:WriteError,resultUser:UserModel)=>{
         if(err) return next(err);
         if(resultUser){
             res.send(tranferJson({status:0,message:'用户已存在'}))

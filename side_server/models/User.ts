@@ -10,11 +10,14 @@ export type UserModel = mongoose.Document & {
     password:string,
     passwordRestToken:string,
     passwordRestExpires:Date,
+    verificationCodeToken:string,
+    verificationCodeExpires:Date,
     github:string,
     tokens:AuthToken[],
     name: string,
     avatar: string,
     notes:any[],
+    compareValidateCode:any,
     comparePassword: any,
     gravatar:()=>{}
 }
@@ -28,6 +31,8 @@ var userSchema = new Schema({
     password:String,
     passwordRestToken:String,
     passwordRestExpires:Date,
+    verificationCodeToken:String,
+    verificationCodeExpires:Date,
     github:String,
     tokens:Array,
     name: String,

@@ -7,4 +7,10 @@ export class LoginService {
     postLogin(obj){
         return this.http.post<any>(CONFIGNI.postLogin,obj);
     }
+    postLoginByNote(obj){
+        return this.http.post<any>(CONFIGNI.postLoginByNote,obj);
+    }
+    sendNote(obj){
+        return this.http.post<any>(CONFIGNI.sendNote,obj);
+    }
 }

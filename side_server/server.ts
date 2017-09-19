@@ -78,6 +78,7 @@ app.post("/v1/atricles", articleController.getNote);
 app.get("/v1/getArticleDetail", articleController.getDetail);
 app.post("/v1/getArticleDetail", articleController.getDetail);
 app.post("/v1/login",userController.postLogin);
+app.post("/v1/postLoginByNote",userController.postLoginByNote);
 app.post("/v1/register",userController.postRegister);
 app.get("/v1/getUser",userController.getUser);
 app.post("/v1/getUser",userController.getUser);
@@ -87,7 +88,9 @@ app.post("/v1/forget",userController.postForgot);
 app.get("/v1/reset",userController.postReset);
 app.post("/v1/reset",userController.postReset);
 app.post("/v1/publish",articleController.publish);
+
 app.post('/v1/upload', apiController.postFileUpload);
+app.post('/v1/sendNote', apiController.sendNote);//发送短信
 
 app.get('/auth/github', passport.authenticate('github',{ scope: [ 'user:email' ] }));
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
