@@ -23,6 +23,7 @@ const APP_PROVIDERS = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     PnfModule.forRoot(),
     PagesModule,
     routing

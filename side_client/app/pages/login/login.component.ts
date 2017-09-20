@@ -2,6 +2,8 @@ import { LoginService } from './login.service';
 import {Component} from '@angular/core';
 import { Router } from '@angular/router';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import {Observable} from 'rxjs'
+
 import {
   trigger,
   state,
@@ -14,7 +16,41 @@ import {
   selector: 'login',
   templateUrl: './login.html',
   styleUrls: ['./login.less'],
-  providers:[LoginService]
+  providers:[LoginService],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({opacity: 1, transform: 'translateX(0)'})),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }),
+        animate('0.2s ease-in')
+      ]),
+      transition('* => void', [
+        animate('0.2s 0.1s ease-out', style({
+          opacity: 0,
+          transform: 'translateX(100%)'
+        }))
+      ])
+    ]),
+    trigger('flyInIn', [
+      state('in', style({opacity: 1, transform: 'translateX(0)'})),
+      transition('* => void', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }),
+        animate('0.2s ease-in')
+      ]),
+      transition('void => *', [
+        animate('0.2s 0.1s ease-out', style({
+          opacity: 0,
+          transform: 'translateX(100%)'
+        }))
+      ])
+    ])
+  ]
 })
 export class Login {
   public emailLogin:boolean =false;
@@ -26,6 +62,10 @@ export class Login {
   public phone:AbstractControl;
   public validateCode:AbstractControl;
   public submitted:boolean = false;
+
+  public animationState:string ='in';
+  public countDown = 20;
+  public cdType:boolean =false;
 
   constructor(fb:FormBuilder,private loginService:LoginService,private router:Router) {
     this.form = fb.group({
@@ -47,8 +87,23 @@ export class Login {
   }
   public changeLogin():void {
     this.emailLogin = !this.emailLogin;
+    if(this.animationState == 'in'){
+      this.animationState = 'void'
+    }else {
+      this.animationState = 'in'
+    }
   }
   public sendNote():void{
+    this.cdType = true;
+    let num = this.countDown;
+    let observable = Observable.interval(1000).take(this.countDown);
+    let subscription = observable.subscribe(x => {
+      this.countDown =num - x-1;
+      if(this.countDown==0){
+        this.cdType = false;
+        this.countDown = num;
+      }
+    });
     this.loginService.sendNote({phone:this.phone.value}).subscribe((response)=>{
       alert(response.resultMess);
     })
