@@ -20,34 +20,22 @@ import {
   animations: [
     trigger('flyInOut', [
       state('in', style({opacity: 1, transform: 'translateX(0)'})),
-      transition('void => *', [
-        style({
-          opacity: 0,
-          transform: 'translateX(-100%)'
-        }),
-        animate('0.2s ease-in')
+      state('out', style({opacity: 0, transform: 'translateX(-100%)'})),
+      transition('out <=> in', [
+        style({transform: 'translateX(-100%)'}),
+        animate(100)
       ]),
-      transition('* => void', [
-        animate('0.2s 0.1s ease-out', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
+      transition('void => in', [
+        style({transform: 'translateX(-100%)'}),
+        animate(100)
       ])
     ]),
     trigger('flyInIn', [
-      state('in', style({opacity: 1, transform: 'translateX(0)'})),
-      transition('* => void', [
-        style({
-          opacity: 0,
-          transform: 'translateX(-100%)'
-        }),
-        animate('0.2s ease-in')
-      ]),
-      transition('void => *', [
-        animate('0.2s 0.1s ease-out', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
+      state('in', style({opacity: 0, transform: 'translateX(100%)'})),
+      state('out', style({opacity: 1, transform: 'translateX(0)'})),
+      transition('in <=> out', [
+        animate(100),
+        style({transform: 'translateX(100%)'}),
       ])
     ])
   ]
@@ -86,12 +74,13 @@ export class Login {
     this.validateCode = this.phoneGroup.controls['validateCode'];
   }
   public changeLogin():void {
-    this.emailLogin = !this.emailLogin;
+    
     if(this.animationState == 'in'){
-      this.animationState = 'void'
+      this.animationState = 'out'
     }else {
       this.animationState = 'in'
     }
+    this.emailLogin = !this.emailLogin;
   }
   public sendNote():void{
     this.cdType = true;
