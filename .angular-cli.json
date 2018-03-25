@@ -4,8 +4,8 @@
         "name": "wstie"
     },
     "apps": [{
-        "root": "side_client",
-        "outDir": "dist/brower",
+        "root": "app/public",
+        "outDir": "dist/browser",
         "assets": [
             "assets"
         ],
@@ -16,12 +16,12 @@
         "prefix": "app",
         "styles": [
             "styles.less",
-            "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-            "../node_modules/froala-editor/css/froala_style.min.css"
+            "../../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+            "../../node_modules/froala-editor/css/froala_style.min.css"
         ],
         "scripts": [
-            "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
-            "../node_modules/froala-editor/js/languages/zh_cn.js"
+            "../../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
+            "../../node_modules/froala-editor/js/languages/zh_cn.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {
@@ -31,7 +31,7 @@
     },
     {
         "platform": "server",
-        "root": "side_client",
+        "root": "app/public",
         "outDir": "dist/server",
         "assets": [
           "assets",
@@ -44,12 +44,12 @@
         "prefix": "app",
         "styles": [
             "styles.less",
-            "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-            "../node_modules/froala-editor/css/froala_style.min.css"
+            "../../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+            "../../node_modules/froala-editor/css/froala_style.min.css"
         ],
         "scripts": [
-            "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
-            "../node_modules/froala-editor/js/languages/zh_cn.js"
+            "../../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
+            "../../node_modules/froala-editor/js/languages/zh_cn.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {
