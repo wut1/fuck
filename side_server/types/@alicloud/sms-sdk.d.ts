@@ -1,4 +1,4 @@
-import * as DysmsapiClient from '@alicloud/dysmsapi'
+import * as DysmsapiClient from '@alicloud/dysmsapi-2017-05-25'
 import * as DybaseapiClient from '@alicloud/dybaseapi'
 import * as MNSClient from '@alicloud/mns'
 

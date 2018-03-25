@@ -1,9 +1,9 @@
 {
-    "extends": "../tsconfig.client.json",
+    "extends": "../tsconfig.json",
     "compilerOptions": {
         "outDir": "../out-tsc/app",
         "module": "es2015",
-        "baseUrl": "",
+        "baseUrl": "./",
         "types": []
     }
 }
