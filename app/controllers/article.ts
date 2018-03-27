@@ -37,34 +37,7 @@ export let getNote = (req:Request,res: Response,next:NextFunction) => {
         res.send(tranferJson({status:1},resultJson));
     });
 }
-export let getNoteInit = (req:Request,res: Response,next:NextFunction) => {    
-    Article.find().sort({time:'desc'}).limit(10).skip(0).populate('_creator').exec(function(err,articles:ArticleModel[]){
-        if(err) return;
-        let resultJson:any[] = [];
-        articles.forEach(function(item,index){
-            let json:any = {
-                id:item.id,
-                title:item.title,
-                time:item.time,
-                meta:item.meta
-            };
-            var text = htmlToText.fromString(item.content, {
-                ignoreImage: true,
-                ignoreHref: true,
-                preserveNewlines:true                   
-            });
-            var reg = /\\n|\s/g;
-            json.content = text.replace(reg,"").substring(0,140) + '...';
-            json.user = {
-                id:item._creator.id,
-                name:item._creator.name,
-                avatar:item._creator.avatar
-            }  
-            resultJson.push(json)
-        });
-        res.render('index', { res:resultJson });
-    });
-}
+
 export let getDetail = (req:Request,res: Response) => {
     let id = req.query.id || req.body.id;
     Article.findOne({id:id}).populate('_creator').exec(function(err:WriteError,item:ArticleModel){

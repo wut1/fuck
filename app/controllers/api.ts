@@ -1,5 +1,5 @@
 import { Request,Response,NextFunction } from 'express';
-import * as SMSClient from '@alicloud/sms-sdk';
+import  {SMSClient} from '@alicloud/sms-sdk';
 import { WriteError } from "mongodb";
 import * as _ from 'lodash';
 import * as async from "async";

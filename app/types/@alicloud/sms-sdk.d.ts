@@ -3,7 +3,7 @@ import * as DybaseapiClient from '@alicloud/dybaseapi'
 import * as MNSClient from '@alicloud/mns'
 
 export class SMSClient {
-    constructor(options)
+    constructor(options);
     dysmsapiClient:DysmsapiClient;
     dybaseClient:DybaseapiClient;
     mnsClient:MNSClient[];

@@ -1,7 +1,7 @@
 import * as Busboy from 'busboy';
 import * as path from "path";
 import * as  fs from "fs";
-import * as sha1 from "sha1";
+import sha1 from "sha1";
 
 // Gets a filename extension.
  let getExtension =(filename)=> {
@@ -70,7 +70,7 @@ export let upload = (req, callback)=>{
         }
 
         // Generate link.
-        var randomName = sha1(new Date().getTime()) + "." + getExtension(filename);
+        var randomName = sha1(String(new Date().getTime())) + "." + getExtension(filename);
         link = fileRoute + randomName;
 
         // Generate path where the file will be saved.

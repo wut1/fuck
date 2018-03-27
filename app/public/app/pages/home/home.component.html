@@ -1,6 +1,7 @@
 <div class="note-list container-fluid">
     <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" (scrolled)="onScroll()">
         <ul class="list-group">
+
             <li *ngFor="let obj of noteList" class="card">
                 <div class="card-header">
                     <img [src]="obj?.user?.avatar" [alt]="obj?.user?.name" class="rounded-circle">

@@ -14,15 +14,6 @@ import * as path from "path";
 import * as mongoose from "mongoose";
 import * as passport from "passport";
 
-import 'zone.js/dist/zone-node';
-import 'reflect-metadata';
-import {enableProdMode} from '@angular/core';
-// Express Engine
-import {ngExpressEngine} from '@nguniversal/express-engine';
-// Import module map for lazy loading
-import {provideModuleMap} from '@nguniversal/module-map-ngfactory-loader';
-
-
 import {join} from 'path';
 
 const MongoStore = mongo(session);
@@ -30,32 +21,16 @@ dotenv.config();
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
-
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI,{useMongoClient: true});
+(<any>mongoose).Promise = global.Promise;
 mongoose.connection.on("error", () => {
   console.log("MongoDB connection error. Please make sure MongoDB is running.");
   process.exit();
 });
 
-// Faster server renders w/ Prod mode (dev mode never needed)
-enableProdMode();
 
 const PORT = process.env.PORT || 3000;
 const DIST_FOLDER = join(process.cwd(), 'dist');
-
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../dist/server/main.bundle');
-
-// Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-app.engine('html', ngExpressEngine({
-  bootstrap: AppServerModuleNgFactory,
-  providers: [
-    provideModuleMap(LAZY_MODULE_MAP)
-  ]
-}));
-
-app.set('view engine', 'html');
-app.set('views', join(DIST_FOLDER, 'browser'));
 
 /**
  * Express configuration.
@@ -82,6 +57,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
+
+app.use('/uploads', express.static(join(DIST_FOLDER, 'uploads')));
 
 import './config/passport';
 import * as articleController from './controllers/article';
@@ -117,8 +94,13 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
   maxAge: '1y'
 }));
 
+
 // ALl regular routes use the Universal engine
-app.get('*', articleController.getNoteInit);
+app.get('*',(req,res)=>{
+  res.sendFile(join(DIST_FOLDER, 'browser/index.html'));
+});
+
+app.use(errorHandler());
 
 // Start up the Node server
 app.listen(PORT, () => {

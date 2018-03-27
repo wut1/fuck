@@ -8,7 +8,6 @@ import 'rxjs/add/operator/exhaustMap';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/empty';
 
-
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
@@ -31,13 +30,12 @@ export class HomeComponent{
    }
    ngOnInit():void{
     if (isPlatformServer(this.platformId)) {
- 
       console.log('当前是服务器平台===>=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>============>');
-      
-   
-    }else if (isPlatformBrowser(this.platformId)) {
+      this.getList(0);
+    }
+    if (isPlatformBrowser(this.platformId)) {
       console.log('当前是客户端平台===>=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>============>');
-      this.getList();
+      this.getList(1);
     }
    }
    getList(page:number=0):void{
