@@ -5,7 +5,8 @@ import { WriteError } from "mongodb";
 import '../models/User'
 import * as htmlToText from 'html-to-text'
 
-export let getNote = (req:Request,res: Response,next:NextFunction) => {
+export let initGetNotes = (req:Request,res: Response,isInit:boolean=false) =>{
+
     let page = +req.body.page||+req.query.page || 0;
     let courent = 10;
     let num =  page * courent;
@@ -34,8 +35,24 @@ export let getNote = (req:Request,res: Response,next:NextFunction) => {
             }  
             resultJson.push(json)
         });
-        res.send(tranferJson({status:1},resultJson));
+        if(!isInit){
+            res.send(tranferJson({status:1},resultJson));
+        } else {
+            res.render('index', {
+                req,res,
+                providers: [{
+                  provide: 'noteList',
+                  useValue: resultJson
+                }],
+                async: true,
+                preboot: false 
+            });
+        }  
     });
+}
+
+export let getNote = (req:Request,res: Response,next:NextFunction) => {
+    initGetNotes(req,res);
 }
 
 export let getDetail = (req:Request,res: Response) => {
