@@ -1,0 +1,20 @@
+<div class="page-top clearfix">
+    <nav>
+        <div id="nav-icon4" [class.open]="!isMenuCollapsed" (click)="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    <div class="user-profile clearfix">
+        <div class="dropdown al-user-profile">
+            <a *ngIf="user?.avatar" class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
+                <img [src]="user?.avatar">
+            </a>
+            <a *ngIf="!user?.avatar" class="logined" routerLink="/login"><i class="fa fa-sign-in" aria-hidden="true"></i>登录</a>
+            <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
+                <li class="dropdown-item" (click)="logout()"><a href="javascript:void(0)" class="signout"><i class="fa fa-power-off"></i>退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
